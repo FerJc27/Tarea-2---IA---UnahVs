@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversion</title>
+  <style>
+   
+   
+   body{
+
+background-image: linear-gradient(150deg
+ ,#922B21, #1F618D, #212F3C, #5B2C6F); 
+ background-size: 1000vw 1000vh;
+animation: fanimado 10s infinite;
+background-repeat: no-repeat;
+}
+
+@keyframes fanimado{
+0%{
+    background-position: 0% 50%;
+}
+50%{
+    background-position: 100% 50%;
+}
+100%{
+    background-position: 0% 50%;
+}
+}
+
+    body {
+      /* background-color: #f5f5f5; */
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      margin-top: 20px;
+      padding: 30px 5px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 1px 10px 5px rgba(0, 0, 0, 0.1);
+      background-color: #2196F3;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+
+</style>
+
+
+
+  </style>
+</head>
+<body>
+  <div>
+    <input id="medida" type="text" placeholder="Ingrese la medida">
+    <h2 id="lbl_resultado"></h2>
+    <button onclick="MaK()">Metros a Kilometros</button>
+    <button onclick="LaK()">Libras a Kilogramos</button>
+    <button onclick="HaM()">Horas a Minutos</button>
+  </div> <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+    
+    <script>
+
+        let modelo1 = null;
+        // esto es lo primeo que se ejecuta al cargar la pagina
+        ( async ()=>{
+            console.log('cargando modelo')
+            // "detetien" o "hace esperar" a que cargue por completo el modelo
+            modelo1 = await tf.loadLayersModel('./modelo1/model.json')
+            console.log('modelo cargado correctamente')
+        })();
+        function MaK(){
+            const medida = document.getElementById('medida')
+            const resultado = document.getElementById('lbl_resultado')
+            // celsius.value // obtiene el valor del input
+            //asegurarnos que el modelo ya está cargado
+            if( modelo1 != null){
+                const tensor = tf.tensor1d([parseInt(medida.value)])
+                let prediccion = modelo1.predict(tensor).dataSync()
+                prediccion = Math.round(prediccion)
+                resultado.innerHTML = `${medida.value} Metros son ${prediccion} Kilometros. `
+                alert(`${medida.value} Metros son ${prediccion} Kilometros.`) //ventana
+
+            }else{
+                console.log('Intente mas tarde')
+            }
+        }
+
+        let modelo2 = null;
+        // esto es lo primeo que se ejecuta al cargar la pagina
+        ( async ()=>{
+            console.log('cargando modelo')
+            // "detetien" o "hace esperar" a que cargue por completo el modelo
+            modelo2 = await tf.loadLayersModel('./modelo2/model.json')
+            console.log('modelo cargado correctamente')
+        })();
+        function LaK(){
+            const medida = document.getElementById('medida')
+            const resultado = document.getElementById('lbl_resultado')
+            // celsius.value // obtiene el valor del input
+            //asegurarnos que el modelo ya está cargado
+            if( modelo2 != null){
+                const tensor = tf.tensor1d([parseInt(medida.value)])
+                let prediccion = modelo2.predict(tensor).dataSync()
+                prediccion = Math.round(prediccion)
+                resultado.innerHTML = `${medida.value} Libras son ${prediccion} Kilogramos. `
+                alert(`${medida.value} Metros son ${prediccion} Kilometros.`) //ventana
+                
+
+            }else{
+                console.log('Intente mas tarde')
+            }
+        }
+
+        let modelo3 = null;
+        // esto es lo primeo que se ejecuta al cargar la pagina
+        ( async ()=>{
+            console.log('cargando modelo')
+            // "detetien" o "hace esperar" a que cargue por completo el modelo
+            modelo3 = await tf.loadLayersModel('./modelo3/model.json')
+            console.log('modelo cargado correctamente')
+        })();
+        function HaM(){
+            const medida = document.getElementById('medida')
+            const resultado = document.getElementById('lbl_resultado')
+            // celsius.value // obtiene el valor del input
+            //asegurarnos que el modelo ya está cargado
+            if( modelo3 != null){
+                const tensor = tf.tensor1d([parseInt(medida.value)])
+                let prediccion = modelo3.predict(tensor).dataSync()
+                prediccion = Math.round(prediccion)
+                resultado.innerHTML = `${medida.value} Horas son ${prediccion} Minutos. `
+                alert(`${medida.value} Metros son ${prediccion} Kilometros.`) //ventana
+
+            }else{
+                console.log('Intente mas tarde')
+            }
+        }
+
+    </script>
+</body>
+</html>
